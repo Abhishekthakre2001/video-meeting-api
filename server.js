@@ -36,6 +36,13 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("❌ User disconnected:", socket.id);
   });
+
+  socket.on("end-room", (roomId) => {
+    io.to(roomId).emit("end-room");
+    io.in(roomId).socketsLeave(roomId);
+    console.log(`Room ${roomId} ended by host`);
+  });
+
 });
 
 const PORT = process.env.PORT || 5000;
